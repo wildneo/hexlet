@@ -1,4 +1,7 @@
+/* eslint-disable no-console */
+
 const fizzBuzz = (begin, end) => {
+  // eslint-disable-next-line consistent-return
   const iter = (count) => {
     if (count <= end) {
       if (!(count % 3) && !(count % 5)) {
@@ -15,4 +18,7 @@ const fizzBuzz = (begin, end) => {
   };
   return iter(begin);
 };
+
+export default fizzBuzz;
+
 fizzBuzz(10, 10);

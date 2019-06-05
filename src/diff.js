@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const diff = (a, b) => {
   const angle = a < b ? b - a : a - b;
   return angle <= 180 ? angle : 360 - angle;

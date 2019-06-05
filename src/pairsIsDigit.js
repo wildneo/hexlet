@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 /**
  * Build pair
  * @example
@@ -15,9 +17,13 @@ export const cons = (a, b) => (2 ** a) * (3 ** b);
  * @param {number} pair
  */
 export const car = (pair) => {
-  const f = (num, acc) =>
-    num > 1 ? f(num / 2, acc + 1) : acc;
-  return pair % 3 ? f(pair, 0) : car(pair / 3);
+  const f = (num, acc) => (
+    num > 1
+      ? f(num / 2, acc + 1)
+      : acc);
+  return pair % 3
+    ? f(pair, 0)
+    : car(pair / 3);
 };
 
 /**
@@ -28,10 +34,13 @@ export const car = (pair) => {
  * @param {number} pair
  */
 export const cdr = (pair) => {
-  const f = (num, acc) =>
-    num > 1 ? f(num / 3, acc + 1) : acc;
-
-  return pair % 2 ? f(pair, 0) : cdr(pair / 2);
+  const f = (num, acc) => (
+    num > 1
+      ? f(num / 3, acc + 1)
+      : acc);
+  return pair % 2
+    ? f(pair, 0)
+    : cdr(pair / 2);
 };
 
 /**
