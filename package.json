@@ -1,0 +1,22 @@
+{
+  "name": "hexlet",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Roman Oskolkov",
+  "license": "ISC",
+  "dependencies": {
+    "hexlet-pairs": "^1.0.8",
+    "hexlet-pairs-data": "^1.0.8",
+    "hexlet-html-tags": "^0.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.3"
+  }
+}
