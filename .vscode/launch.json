@@ -7,7 +7,22 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Run Test",
+      "program": "${workspaceFolder}\\node_modules\\jest\\bin\\jest",
+      "args": [
+        "${fileBasenameNoExtension}",
+        "--colors",
+        // "--runInBand",
+      ],
+      "console": "internalConsole",
+      // "console": "integratedTerminal",
+      // "internalConsoleOptions": "neverOpen",
+
+},
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Program",
       "program": "${file}",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/babel-node.cmd",
 
