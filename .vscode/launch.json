@@ -14,9 +14,9 @@
         "--colors",
         // "--runInBand",
       ],
-      "console": "internalConsole",
-      // "console": "integratedTerminal",
-      // "internalConsoleOptions": "neverOpen",
+      // "console": "internalConsole",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
 
 },
     {

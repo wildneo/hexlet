@@ -24,16 +24,16 @@ class Enumerable {
   }
 
   where(...parameters) {
-    const chekParamType = (param) => {
-      if (typeof param === 'function') {
-        return param;
+    const filter = parameters.map((parameter) => {
+      if (typeof parameter === 'function') {
+        return coll => coll.filter(parameter);
       }
-      if (typeof param === 'object') {
-        const key = Object.keys(param);
-        return car => car[key] === param[key];
-      }
-    };
-    return parameters.reduce((acc, param) => acc.build(coll => coll.filter(chekParamType(param))), this);
+      return coll => coll.filter(element => (
+        Object.keys(parameter)
+          .every(key => parameter[key] === element[key])
+      ));
+    });
+    return this.build(filter);
   }
 
   orderBy(fn, direction = 'asc') {
@@ -50,16 +50,3 @@ class Enumerable {
 }
 
 export default Enumerable;
-
-const cars = [
-  { brand: 'bmw', model: 'm5', year: 2014 },
-  { brand: 'bmw', model: 'm4', year: 2013 },
-  { brand: 'kia', model: 'sorento', year: 2014 },
-  { brand: 'kia', model: 'rio', year: 2010 },
-  { brand: 'kia', model: 'sportage', year: 2012 },
-];
-const coll = new Enumerable(cars);
-
-const result = coll.where(car => car.brand === 'kia', { year: 2010 }, car => car.model === 'rio');
-
-console.log(result.toArray());
