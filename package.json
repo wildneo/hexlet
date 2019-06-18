@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "jest",
-    "run": "node makeFile.js"
+    "start": "node makeFile.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
