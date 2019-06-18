@@ -42,9 +42,9 @@ const makeFile = (name, options) => {
         ? print(`Не удалось создать файл: ${err}`)
         : print(`Файл успешно создан: ${filePath}`)
     ));
+  } else {
+    print(`Файл уже существует: ${filePath}`);
   }
-
-  print(`Файл уже существует: ${filePath}`);
 };
 
 modules.forEach(item => makeFile(moduleName, item));
