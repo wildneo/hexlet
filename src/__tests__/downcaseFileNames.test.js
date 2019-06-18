@@ -11,7 +11,7 @@ const myTree = mkdir('B', [
   ]),
   mkfile('hOsts'),
 ]);
-JSON.stringify(downcaseFileNames(myTree));
+console.log(downcaseFileNames(myTree));
 
 
 describe('should', () => {
