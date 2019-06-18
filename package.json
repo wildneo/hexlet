@@ -7,8 +7,10 @@
   "license": "ISC",
   "dependencies": {
     "hexlet-html-tags": "^0.3.0",
+    "hexlet-immutable-fs-trees": "^0.3.1",
     "hexlet-pairs": "^1.0.8",
-    "hexlet-pairs-data": "^1.0.8"
+    "hexlet-pairs-data": "^1.0.8",
+    "lodash": "^4.17.11"
   },
   "scripts": {
     "test": "jest"
