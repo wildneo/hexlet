@@ -1,10 +1,11 @@
-export const map = (f, node) => {
-  const { name, type, children } = node;
-  const copyNode = { ...node };
+
+const map = (fn, node) => {
+  const { type, children } = node;
+  const processedNode = fn(node);
 
   return type === 'directory'
-    ? { ...copyNode, children: children.map(map) }
-    : { ...copyNode, name: name.toLowerCase() };
+    ? { ...processedNode, children: children.map(n => map(fn, n)) }
+    : processedNode;
 };
 
 export default map;
