@@ -5,7 +5,7 @@ const modules = [
   {
     path: './src',
     ext: 'js',
-    data: '',
+    data: `const ${moduleName} = (params) => {\n\t\n};\n\nexport default ${moduleName};\n`,
   },
   {
     path: './src/__tests__',
