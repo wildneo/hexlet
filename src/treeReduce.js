@@ -1,11 +1,11 @@
 
-const reduce = (fn, node) => {
+const reduce = (fn, node, acc) => {
   const { type, children } = node;
-  const processedNode = { ...node };
+  const newAcc = fn(acc, node);
 
   return type === 'directory'
-    ? { ...processedNode, children: children.map(n => reduce(fn, n)) }
-    : processedNode;
+    ? children.reduce((iAcc, n) => reduce(fn, n, iAcc), newAcc)
+    : newAcc;
 };
 
 export default reduce;

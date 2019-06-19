@@ -1,5 +1,5 @@
 import { mkdir, mkfile } from 'hexlet-immutable-fs-trees';
-import reduce from '../reduce';
+import reduce from '../treeReduce';
 /*eslint-disable*/
 
 test('reduce 1', () => {
