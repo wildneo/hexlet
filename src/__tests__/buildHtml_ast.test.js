@@ -2,7 +2,7 @@ import { render, parse } from '../buildHtml_ast';
 /*eslint-disable*/
 
 describe('HtmlBuilder', () => {
-  it('set 1', () => {
+  test('set 1', () => {
     const data = ['html', [
       ['head', [
         ['title', 'hello, hexlet!'],
@@ -21,7 +21,7 @@ describe('HtmlBuilder', () => {
     expect(actual).toBe(expected);
   });
 
-  it('set 2', () => {
+  test('set 2', () => {
     const data = ['html', [
       ['body', [
         ['h2', { class: 'header' }, 'first header'],
