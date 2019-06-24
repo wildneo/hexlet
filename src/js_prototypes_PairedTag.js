@@ -1,6 +1,6 @@
-import SingleTag from './js_prototypes_SingleTag';
+import Node from './js_prototypes_Node';
 
-class PairedTag extends SingleTag {
+export default class extends Node {
   constructor(name, attributes, data = '', children = []) {
     super(name, attributes);
     this.data = data;
@@ -9,11 +9,9 @@ class PairedTag extends SingleTag {
 
   toString() {
     return [
-      `<${this.name}${this.inlineAttrs()}>`,
+      `<${this.name}${this.getInlineAttrs()}>`,
       `${this.data}${this.children.join('')}`,
       `</${this.name}>`,
     ].join('');
   }
 }
-
-export default PairedTag;

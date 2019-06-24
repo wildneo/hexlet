@@ -1,18 +1,7 @@
-class SingleTag {
-  constructor(name, attributes = {}) {
-    this.name = name;
-    this.attributes = attributes;
-  }
+import Node from './js_prototypes_Node';
 
-  inlineAttrs() {
-    return Object.keys(this.attributes)
-      .map(key => ` ${key}="${this.attributes[key]}"`)
-      .join('');
-  }
-
+export default class extends Node {
   toString() {
-    return `<${this.name}${this.inlineAttrs()}>`;
+    return `<${this.name}${this.getInlineAttrs()}>`;
   }
 }
-
-export default SingleTag;
