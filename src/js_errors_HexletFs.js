@@ -1,39 +1,29 @@
 import path from 'path';
-import Tree from './js_errors_Tree';
 import getPathParts from './utils/getPathParts';
-import typeOf from './utils/typeOfNode';
+
+import Tree from './js_errors_Tree';
+
+import Dir from './js_errors_Dir';
+import File from './js_errors_File';
 
 class HexletFs {
   constructor() {
-    this.tree = new Tree('/', { type: 'dir' });
+    this.tree = new Tree('/', new Dir('/'));
   }
 
-  mkdirSync(filepath) { // повторяющийся код
+  mkdirSync(filepath) {
     const { base, dir } = path.parse(filepath);
-    const node = this.findNode(dir);
-    return typeOf(node) === 'dir'
-      ? node.addChild(base, { type: 'dir' })
-      : false;
+    return this.findNode(dir).addChild(base, new Dir(base));
   }
 
-  touchSync(filepath) { // повторяющийся код
+  touchSync(filepath) {
     const { base, dir } = path.parse(filepath);
-    const node = this.findNode(dir);
-    return typeOf(node) === 'dir'
-      ? node.addChild(base, { type: 'file' })
-      : false;
+    return this.findNode(dir).addChild(base, new File(base));
   }
 
-  isDirectory(filepath) { // повторяющийся код
-    const node = this.findNode(filepath);
-
-    return typeOf(node) === 'dir';
-  }
-
-  isFile(filepath) { // повторяющийся код
-    const node = this.findNode(filepath);
-
-    return typeOf(node) === 'file';
+  statSync(filepath) {
+    const current = this.findNode(filepath);
+    return current.getMeta().getStats();
   }
 
   findNode(filepath) {
@@ -45,3 +35,8 @@ class HexletFs {
 }
 
 export default HexletFs;
+
+// const files = new HexletFs();
+// files.mkdirSync('/etc/ttt');
+// // files.touchSync('/etc').mkdirSync('file');
+// console.table(files.statSync('/etc/ttt'));
