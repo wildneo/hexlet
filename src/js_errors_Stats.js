@@ -1,14 +1,14 @@
 export default class Stats {
-  constructor(meta) {
-    this.name = meta.name;
-    this.type = meta.type;
+  constructor(file, directory) {
+    this.file = file;
+    this.directory = directory;
   }
 
   isFile() {
-    return this.type === 'File';
+    return this.file;
   }
 
   isDirectory() {
-    return this.type === 'Dir';
+    return this.directory;
   }
 }

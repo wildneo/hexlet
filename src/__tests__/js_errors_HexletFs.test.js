@@ -1,101 +1,53 @@
 import HexletFs from '../js_errors_HexletFs';
 /*eslint-disable*/
 
-describe ('FS', () => {
+describe('FS', () => {
   let files;
 
   beforeEach(() => {
     files = new HexletFs();
-  });
-
-  test ('mkdirSync', () => {
-    expect(files.isDirectory('/etc')).toBe(false);
-
     files.mkdirSync('/etc');
-    expect(files.isDirectory('/etc')).toBe(true);
-
-    files.mkdirSync('/etc/nginx/unknown');
-    expect(files.isDirectory('/etc/nginx/unknown')).toBe(false);
-
+    files.mkdirSync('/opt');
     files.mkdirSync('/etc/nginx');
-    expect(files.isDirectory('/etc/nginx')).toBe(true);
   });
 
-  test ('mkdirSync2', () => {
-    expect(files.isDirectory('/var//')).toBe(false);
+  it('hexletFs', () => {
+    expect(files.mkdirSync('/opt/folder/inner')).toBe(false);
+    expect(files.statSync('/opt').isDirectory()).toBe(true);
+    expect(files.statSync('/etc/unknown')).toBe(null);
 
-    files.mkdirSync('/var/');
-    expect(files.isDirectory('/var////')).toBe(true);
-    expect(files.isDirectory('/var')).toBe(true);
+    files.touchSync('/opt/file.txt');
+    files.touchSync('/etc/nginx/nginx.conf');
+    expect(files.statSync('/etc/nginx').isDirectory()).toBe(true);
+    expect(files.statSync('/etc/nginx').isFile()).toBe(false);
+    expect(files.statSync('/etc/nginx/nginx.conf').isDirectory()).toBe(false);
+    expect(files.statSync('/etc/nginx/nginx.conf').isFile()).toBe(true);
+    expect(files.mkdirSync('/etc/nginx/nginx.conf/wrong')).toBe(false);
 
-    files.mkdirSync('/var//log//////');
-    expect(files.isDirectory('/var/log')).toBe(true);
-    expect(files.isDirectory('/var///log')).toBe(true);
+    expect(files.touchSync('/etc/nginx/nginx.conf/wrong')).toBe(false);
+    expect(files.touchSync('/opt/folder/inner')).toBe(false);
+    expect(files.statSync('/opt/file.txt').isFile()).toBe(true);
+
+    files.mkdirpSync('/etc/nginx/conf.d');
+    files.mkdirpSync('/usr/admin/docs');
+    expect(files.readdirSync('/usr/admin/docs')).toEqual([]);
+    expect(files.statSync('/etc/nginx/conf.d').isDirectory()).toBe(true);
+    expect(files.mkdirpSync('/etc/nginx/nginx.conf/wrong')).toBe(false);
+
+    expect(files.readdirSync('/etc/nginx')).toEqual(['nginx.conf', 'conf.d']);
+    expect(files.readdirSync('/')).toEqual(['etc', 'opt', 'usr']);
+    expect(files.readdirSync('/etc/nginx/undefined')).toBe(false);
+    expect(files.readdirSync('/etc/nginx/nginx.conf')).toBe(false);
+
+    files.rmdirSync('/etc/nginx/conf.d');
+    expect(files.readdirSync('/etc/nginx')).toEqual(['nginx.conf']);
+
+    expect(files.rmdirSync('/etc/unknown')).toBe(false);
+    expect(files.rmdirSync('/etc/nginx')).toBe(false);
+
+    expect(files.rmdirSync('/etc/nginx/nginx.conf')).toBe(false);
+
+    files.rmdirSync('/usr/admin/docs');
+    expect(files.readdirSync('/usr/admin/docs')).toBe(false);
   });
-  
-  test ('mkdirSync3', () => {
-    expect(files.isFile('/file.txt')).toBe(false);
-
-    files.touchSync('/file.txt');
-    expect(files.isFile('/file.txt')).toBe(true);
-
-    expect(files.isDirectory('/file.txt/unknown')).toBe(false);
-
-    files.mkdirSync('/file.txt/unknown');
-    expect(files.isDirectory('/file.txt/unknown')).toBe(false);
-  });
-
-  test('#touchSync', () => {
-    expect(files.isFile('/file.txt')).toBe(false);
-
-    files.touchSync('/unknown1/file.txt');
-    expect(files.isFile('/unkown1/file.txt')).toBe(false);
-
-    files.touchSync('/file.txt');
-    expect(files.isFile('/file.txt')).toBe(true);
-
-    files.mkdirSync('/etc');
-    files.touchSync('/etc/bashrc');
-    expect(files.isFile('/etc/bashrc')).toBe(true);
-  });
-
-  test('#touchSync2', () => {
-    expect(!files.isFile('/file.txt')).toBe(true);
-
-    files.touchSync('/file.txt');
-    expect(files.isFile('/file.txt')).toBe(true);
-
-    expect(files.isFile('/file.txt/another.txt')).toBe(false);
-
-    files.touchSync('/file.txt/another.txt');
-    expect(files.isFile('/file.txt/another.txt')).toBe(false);
-  });
-
-  
-  // it('#mkdirSync', () => {
-  //   files.mkdirSync('/etc');
-  //   expect(files.statSync('/etc').isDirectory()).toBeTruthy();
-
-  //   files.mkdirSync('/etc/nginx');
-  //   expect(files.statSync('/etc/nginx').isDirectory()).toBeTruthy();
-  // });
-
-  // it('#mkdirSync2', () => {
-  //   files.mkdirSync('/var/');
-  //   expect(files.statSync('/var////').isDirectory()).toBeTruthy();
-  //   expect(files.statSync('/var').isDirectory()).toBeTruthy();
-
-  //   files.mkdirSync('/var//log//////');
-  //   expect(files.statSync('/var/log').isDirectory()).toBeTruthy();
-  //   expect(files.statSync('/var///log').isDirectory()).toBeTruthy();
-  // });
-
-  // it('#touchSync', () => {
-  //   files.touchSync('/file.txt');
-  //   expect(files.statSync('/file.txt').isFile()).toBeTruthy();
-
-  //   files.mkdirSync('/etc');
-  //   files.touchSync('/etc/bashrc');
-  //   expect(files.statSync('/etc/bashrc').isFile()).toBeTruthy();
-  // });
 });

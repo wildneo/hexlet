@@ -1,13 +1,12 @@
 import Stats from './js_errors_Stats';
 
 export default class Node {
-  constructor(name, type) {
+  constructor(name) {
     this.name = name;
-    this.meta = new Stats({ name, type });
   }
 
   getStats() {
-    return this.meta;
+    return new Stats(this.isFile(), this.isDirectory());
   }
 
   getName() {
