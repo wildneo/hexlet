@@ -2,6 +2,7 @@ import path from 'path';
 import errors from 'errno';
 
 import getPathParts from './utils/getPathParts';
+import HexletFsError from './utils/HexletFsError';
 
 import Tree from './js_errors_Tree';
 import Dir from './js_errors_Dir';
@@ -15,93 +16,95 @@ export default class {
   statSync(filepath) {
     const current = this.findNode(filepath);
     if (!current) {
-      return [null, errors.code.ENOENT];
+      throw new HexletFsError(errors.code.ENOENT, filepath);
     }
-
-    return [current.getMeta().getStats(), null];
+    return current.getMeta().getStats();
   }
 
-  unlinkSync(filepath) {
-    const { base } = path.parse(filepath);
-    const current = this.findNode(filepath);
-    if (!current) {
-      return [null, errors.code.ENOENT];
+  // BEGIN (write your solution here)
+  copySync(srcPath, destPath) {
+    const { dir: srcDir, base: srcBase } = path.parse(srcPath);
+    const { dir: destDir, base: destBase } = path.parse(destPath);
+
+    const src = this.findNode(srcPath);
+    const dest = this.findNode(destPath);
+    const destParent = this.findNode(destDir);
+
+    if (!src) {
+      throw new HexletFsError(errors.code.ENOENT, srcPath);
     }
-    if (current.getMeta().isDirectory()) {
-      return [null, errors.code.EPERM];
+    if (src.getMeta().isDirectory()) {
+      throw new HexletFsError(errors.code.EISDIR, srcPath);
+    }
+    if (!destParent) {
+      throw new HexletFsError(errors.code.ENOENT, destPath);
+    }
+    console.log(destParent);
+    
+    if (destParent.getMeta().isfile()) {
+      throw new HexletFsError(errors.code.ENOENT, destPath);
     }
 
-    return [current.getParent().removeChild(base), null];
+    const body = src.getMeta().getBody();
+
+    if (dest.getMeta().isFile()) {
+      const parent = dest.getParent();
+      return parent.addChild(destBase, new File(destBase, body));
+    }
+    
+    // const parent = dest.getParent();
+    return dest.addChild(srcBase, new File(srcBase, body));
+  }
+  // END
+
+  writeFileSync(filepath, body) {
+    const { dir, base } = path.parse(filepath);
+    const parent = this.findNode(dir);
+    if (!parent || parent.getMeta().isFile()) {
+      throw new HexletFsError(errors.code.ENOENT, filepath);
+    }
+    const current = parent.getChild(base);
+    if (current && current.getMeta().isDirectory()) {
+      throw new HexletFsError(errors.code.EISDIR, filepath);
+    }
+    parent.addChild(base, new File(base, body));
   }
 
-  writeFileSync(filepath, content) {
-    const { base, dir } = path.parse(filepath);
+  touchSync(filepath) {
+    const { dir, base } = path.parse(filepath);
     const parent = this.findNode(dir);
     if (!parent) {
-      return [null, errors.code.ENOENT];
+      throw new HexletFsError(errors.code.ENOENT, filepath);
     }
     if (parent.getMeta().isFile()) {
-      return [null, errors.code.ENOTDIR];
+      throw new HexletFsError(errors.code.ENOTDIR, filepath);
     }
-    const child = parent.getChild(base);
-    if (child && child.getMeta().isDirectory()) {
-      return [null, errors.code.EISDIR];
-    }
-    return [parent.addChild(base, new File(base, content)), null];
-  }
-
-  readFileSync(filepath) {
-    const current = this.findNode(filepath);
-    if (!current) {
-      return [null, errors.code.ENOENT];
-    }
-    if (current.getMeta().isDirectory()) {
-      return [null, errors.code.EISDIR];
-    }
-
-    return [current.getMeta().getBody(), null];
+    return parent.addChild(base, new File(base, ''));
   }
 
   mkdirpSync(filepath) {
-    const result = getPathParts(filepath).reduce((subtree, part) => {
-      if (!subtree) {
-        return false;
-      }
+    getPathParts(filepath).reduce((subtree, part) => {
       const current = subtree.getChild(part);
       if (!current) {
         return subtree.addChild(part, new Dir(part));
       }
       if (current.getMeta().isFile()) {
-        return false;
+        throw new HexletFsError(errors.code.ENOTDIR, filepath);
       }
 
       return current;
     }, this.tree);
-
-    return !!result;
   }
 
-  touchSync(filepath) {
-    const { base, dir } = path.parse(filepath);
-    const parent = this.findNode(dir);
-    if (!parent) {
-      return [null, errors.code.ENOENT];
+  readFileSync(filepath) {
+    const current = this.findNode(filepath);
+    if (!current) {
+      throw new HexletFsError(errors.code.ENOENT, filepath);
     }
-    if (parent.getMeta().isFile()) {
-      return [null, errors.code.ENOTDIR];
+    if (current.getMeta().isDirectory()) {
+      throw new HexletFsError(errors.code.EISDIR, filepath);
     }
-    return [parent.addChild(base, new File(base, '')), null];
-  }
-
-  readdirSync(filepath) {
-    const dir = this.findNode(filepath);
-    if (!dir) {
-      return [null, errors.code.ENOENT];
-    }
-    if (dir.getMeta().isFile()) {
-      return [null, errors.code.ENOTDIR];
-    }
-    return [dir.getChildren().map(child => child.getKey()), null];
+    return current.getMeta().getBody();
   }
 
   findNode(filepath) {
@@ -109,6 +112,7 @@ export default class {
     return parts.length === 0 ? this.tree : this.tree.getDeepChild(parts);
   }
 }
+
 
 // const files = new HexletFs();
 // files.mkdirSync('/etc');
