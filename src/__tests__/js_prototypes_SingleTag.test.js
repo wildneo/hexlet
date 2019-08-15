@@ -1,4 +1,4 @@
-import SingleTag from '../js_prototypes_SingleTag';
+import SingleTag from '../js_prototypes/js_prototypes_SingleTag';
 /*eslint-disable*/
 
 test('Single Tag', () => {

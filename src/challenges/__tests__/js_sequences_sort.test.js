@@ -1,6 +1,5 @@
 import { l, toString as listToString } from 'hexlet-pairs-data';
 import sort from '../js_sequences_sort';
-/*eslint-disable*/
 
 describe('Sort', () => {
   it('set 1', () => {

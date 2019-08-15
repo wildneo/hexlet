@@ -1,4 +1,4 @@
-import HexletFs from '../js_errors_HexletFs';
+import HexletFs from '../js_errors/js_errors_HexletFs';
 /*eslint-disable*/
 
 describe('FS', () => {

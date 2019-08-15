@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
-  "author": "Roman Oskolkov",
+  "author": "Roman Oskolkov <wild_neo@mail.ru> (https://github.com/wildneo)",
   "license": "ISC",
   "dependencies": {
+    "async": "^3.1.0",
     "errno": "^0.1.7",
     "hexlet-html-tags": "^0.3.0",
     "hexlet-immutable-fs-trees": "^0.3.1",
@@ -22,7 +23,7 @@
     "@babel/core": "^7.3.3",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
-    "eslint": "^5.16.0",
+    "eslint": "5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "jest": "^24.8.0"

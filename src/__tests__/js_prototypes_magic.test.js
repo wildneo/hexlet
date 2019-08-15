@@ -1,4 +1,4 @@
-import magic from '../js_prototypes_magic';
+import magic from '../js_prototypes/js_prototypes_magic';
 /*eslint-disable*/
 
 test('magic', () => {

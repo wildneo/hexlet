@@ -1,8 +1,8 @@
 import path from 'path';
 import errors from 'errno';
 
-import getPathParts from './utils/getPathParts';
-import HexletFsError from './utils/HexletFsError';
+import getPathParts from '../utils/getPathParts';
+import HexletFsError from '../utils/HexletFsError';
 
 import Tree from './js_errors_Tree';
 import Dir from './js_errors_Dir';
@@ -21,14 +21,11 @@ export default class {
     return current.getMeta().getStats();
   }
 
-  // BEGIN (write your solution here)
   copySync(srcPath, destPath) {
-    const { dir: srcDir, base: srcBase } = path.parse(srcPath);
-    const { dir: destDir, base: destBase } = path.parse(destPath);
-
+    const { base: srcBase } = path.parse(srcPath);
+    const { dir, base } = path.parse(destPath);
     const src = this.findNode(srcPath);
-    const dest = this.findNode(destPath);
-    const destParent = this.findNode(destDir);
+    const dest = this.findNode(dir);
 
     if (!src) {
       throw new HexletFsError(errors.code.ENOENT, srcPath);
@@ -36,26 +33,22 @@ export default class {
     if (src.getMeta().isDirectory()) {
       throw new HexletFsError(errors.code.EISDIR, srcPath);
     }
-    if (!destParent) {
+    if (!dest) {
       throw new HexletFsError(errors.code.ENOENT, destPath);
     }
-    console.log(destParent);
-    
-    if (destParent.getMeta().isfile()) {
+    if (dest.getMeta().isFile()) {
       throw new HexletFsError(errors.code.ENOENT, destPath);
     }
 
     const body = src.getMeta().getBody();
+    const current = dest.getChild(base);
 
-    if (dest.getMeta().isFile()) {
-      const parent = dest.getParent();
-      return parent.addChild(destBase, new File(destBase, body));
+    if (!current || current.getMeta().isFile()) {
+      return dest.addChild(base, new File(base, body));
     }
-    
-    // const parent = dest.getParent();
-    return dest.addChild(srcBase, new File(srcBase, body));
+
+    return current.addChild(srcBase, new File(srcBase, body));
   }
-  // END
 
   writeFileSync(filepath, body) {
     const { dir, base } = path.parse(filepath);
@@ -112,14 +105,3 @@ export default class {
     return parts.length === 0 ? this.tree : this.tree.getDeepChild(parts);
   }
 }
-
-
-// const files = new HexletFs();
-// files.mkdirSync('/etc');
-// files.mkdirSync('/usr');
-
-// files.mkdirpSync('/usr/admin/docs');
-
-// console.log(files.readdirSync('/usr/admin/docs'));
-// files.touchSync('/usr/admin/docs/usr.conf');
-// console.log(files.readdirSync('/usr/admin/docs'));

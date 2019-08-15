@@ -1,4 +1,4 @@
-import PairedTag from '../js_prototypes_PairedTag';
+import PairedTag from '../js_prototypes/js_prototypes_PairedTag';
 /*eslint-disable*/
 
 test('Paired Tag', () => {

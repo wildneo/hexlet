@@ -1,4 +1,4 @@
-import Tree from '../js_errors_Tree';
+import Tree from '../js_errors/js_errors_Tree';
 /*eslint-disable*/
 
 describe('Tree', () => {

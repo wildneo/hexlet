@@ -1,6 +1,6 @@
-import parse from '../js_prototypes_buildHtml_astTypes';
-import SingleTag from '../js_prototypes_SingleTag';
-import PairedTag from '../js_prototypes_PairedTag';
+import parse from '../js_prototypes/js_prototypes_buildHtml_astTypes';
+import SingleTag from '../js_prototypes/js_prototypes_SingleTag';
+import PairedTag from '../js_prototypes/js_prototypes_PairedTag';
 /*eslint-disable*/
 
 describe('HtmlBuilder', () => {
