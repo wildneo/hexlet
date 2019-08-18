@@ -1,7 +1,7 @@
 import path from 'path';
 import os from 'os';
 import fs from 'fs';
-import move from '../async_code/async_code_move';
+import move from '../async_code_move';
 
 test('move1', (done) => {
   move('/undefined1', '/undefined2', (error) => {

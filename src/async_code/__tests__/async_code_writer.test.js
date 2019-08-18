@@ -1,7 +1,7 @@
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import write from '../async_code/async_code_writer';
+import write from '../async_code_writer';
 
 
 test('readFile', (done) => {

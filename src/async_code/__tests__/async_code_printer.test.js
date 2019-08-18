@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import fs from 'fs';
-import print from '../async_code/async_code_printer';
+import print from '../async_code_printer';
 
 test('readFile', (done) => {
   const results = [];
