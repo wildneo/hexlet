@@ -4,11 +4,20 @@ import ClockState from './ClockState';
 
 export default class BellState extends State {
   constructor(clock) {
-    super('bell', clock);
+    super(clock, 'bell', ClockState);
   }
 
   tick() {
-    super.tick();
-    this.clock.setState(ClockState);
+    this.nextState();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  incrementH() {
+    return false;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  incrementM() {
+    return false;
   }
 }
