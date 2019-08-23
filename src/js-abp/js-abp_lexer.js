@@ -1,31 +1,42 @@
 export default (str) => {
   const result = [];
   let firstWord = '';
-  let state = 'newLine'; // newLine,
+  let state = 'newLine'; // newLine, restOfSentense, insideFirstWord
   for (let i = 0; i < str.length; i += 1) {
     const symbol = str[i];
-    // eslint-disable-next-line default-case
     switch (state) {
       case 'newLine':
+        if (symbol === '\n') {
+          state = 'newLine';
+          break;
+        }
         if (symbol !== ' ') {
-          state = 'word';
+          state = 'insideFirstWord';
           firstWord += symbol;
         }
         break;
-      case 'word':
-        if (symbol !== ' ') {
-          firstWord += symbol;
+
+      case 'insideFirstWord':
+        if (symbol === '\n') {
+          state = 'newLine';
+        } else if (symbol === ' ') {
+          state = 'restOfSentense';
         } else {
-          state = 'otherWords';
-          result.push(firstWord);
-          firstWord = '';
+          firstWord += symbol;
+          break;
         }
+        result.push(firstWord);
+        firstWord = '';
         break;
-      case 'otherWords':
+
+      case 'restOfSentense':
         if (symbol === '\n') {
           state = 'newLine';
         }
         break;
+
+      default:
+        throw new Error(`Unexpected state '${state}'`);
     }
   }
   return result;
