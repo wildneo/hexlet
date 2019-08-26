@@ -1,45 +1,23 @@
 export default class State {
-  constructor(type, clock) {
-    this.type = type;
+  constructor(clock, modeName, nextState) {
     this.clock = clock;
+    this.modeName = modeName;
+    this.nextStateClass = nextState;
   }
 
-  getType() {
-    return this.type;
+  getMode() {
+    return this.modeName;
   }
 
-  hoursInc() {
-    const n = this.clock.hours() + 1;
-    this.clock.H = n === 24 ? 0 : n;
+  nextState(nextState) {
+    this.clock.setState(nextState || this.nextStateClass);
   }
 
-  minutesInc() {
-    const n = this.clock.minutes() + 1;
-    this.clock.M = n === 60 ? 0 : n;
+  incrementH() {
+    this.clock.incrementH(this.timeType);
   }
 
-  alarmHoursInc() {
-    const n = this.clock.alarmHours() + 1;
-    this.clock.aH = n === 24 ? 0 : n;
-  }
-
-  alarmMinutesInc() {
-    const n = this.clock.alarmMinutes() + 1;
-    this.clock.aM = n === 60 ? 0 : n;
-  }
-
-  tick() {
-    this.minutesInc();
-    if (this.clock.minutes() === 0) {
-      this.hoursInc();
-    }
-  }
-
-  clickH() {
-    return;
-  }
-
-  clickM() {
-    return;
+  incrementM() {
+    this.clock.incrementM(this.timeType);
   }
 }

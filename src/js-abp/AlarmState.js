@@ -1,23 +1,26 @@
 import State from './State';
+// eslint-disable-next-line import/no-cycle
+import ClockState from './ClockState';
+// eslint-disable-next-line import/no-cycle
 import BellState from './BellState';
 
 export default class AlarmState extends State {
   constructor(clock) {
-    super('alarm', clock);
-  }
-
-  clickH() {
-    this.alarmHoursInc();
-  }
-
-  clickM() {
-    this.alarmMinutesInc();
+    super(clock, 'alarm', ClockState);
+    this.timeType = 'alarmTime';
   }
 
   tick() {
-    super.tick();
-    if (this.clock.isAlarmOn() && this.clock.isAlarmTime()) {
-      this.clock.setState(BellState);
+    if (this.clock.isAlarmTime()) {
+      this.nextState(BellState);
     }
+  }
+
+  clickH() {
+    this.incrementH();
+  }
+
+  clickM() {
+    this.incrementM();
   }
 }

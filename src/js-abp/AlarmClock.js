@@ -1,14 +1,11 @@
-import AlarmState from './AlarmState';
 import ClockState from './ClockState';
 
 export default class AlarmClock {
   constructor() {
-    this.H = 12;
-    this.M = 0;
-    this.aH = 6;
-    this.aM = 0;
-    this.alarm = false;
+    this.clockTime = { hours: 12, minutes: 0 };
+    this.alarmTime = { hours: 6, minutes: 0 };
     this.setState(ClockState);
+    this.alarmOn = false;
   }
 
   setState(State) {
@@ -16,71 +13,65 @@ export default class AlarmClock {
   }
 
   clickMode() {
-    switch (this.getCurrentMode()) {
-      case 'alarm':
-        this.setState(ClockState);
-        break;
-      case 'bell':
-        this.setState(ClockState);
-        break;
-      default:
-        this.setState(AlarmState);
-        break;
-    }
+    this.state.nextState();
   }
 
   longClickMode() {
-    switch (this.isAlarmOn()) {
-      case true:
-        this.alarm = false;
-        break;
-      default:
-        this.alarm = true;
-        break;
-    }
+    this.alarmOn = !this.alarmOn;
   }
 
   clickH() {
-    this.state.clickH();
+    this.state.incrementH();
   }
 
   clickM() {
-    this.state.clickM();
+    this.state.incrementM();
   }
 
   tick() {
+    this.incrementM('clockTime');
+    if (this.minutes() === 0) {
+      this.incrementH('clockTime');
+    }
     this.state.tick();
   }
 
   isAlarmOn() {
-    return this.alarm;
+    return this.alarmOn;
   }
 
   isAlarmTime() {
-    if (this.hours() === this.alarmHours()
-      && this.minutes() === this.alarmMinutes()) {
-      return true;
-    }
-    return false;
+    return this.hours() === this.alarmHours()
+      && this.minutes() === this.alarmMinutes();
   }
 
   minutes() {
-    return this.M;
+    return this.clockTime.minutes;
   }
 
   hours() {
-    return this.H;
+    return this.clockTime.hours;
   }
 
   alarmMinutes() {
-    return this.aM;
+    return this.alarmTime.minutes;
   }
 
   alarmHours() {
-    return this.aH;
+    return this.alarmTime.hours;
   }
 
   getCurrentMode() {
-    return this.state.getType();
+    return this.state.getMode();
+  }
+
+  incrementH(timeType) {
+    const data = this[timeType];
+    data.hours = (data.hours + 1) % 24;
+  }
+
+  incrementM(timeType) {
+    const data = this[timeType];
+    data.minutes = (data.minutes + 1) % 60;
   }
 }

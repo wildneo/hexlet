@@ -16,8 +16,7 @@
     "lodash": "^4.17.15"
   },
   "scripts": {
-    "test": "jest",
-    "start": "node makeFile.js"
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
