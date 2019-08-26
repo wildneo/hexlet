@@ -5,20 +5,25 @@ export default class Order {
     this.items = items;
     this.history = [];
 
-    this._fsm();
+    this._fsm(); // eslint-disable-line
   }
-};
+}
 
-StateMachine.faactory(Order {
+StateMachine.factory(Order, {
   init: 'init',
   transitions: [
-    { name:'accept', from: 'init', to: 'pending'},
-    { name:'ship', from: 'pending', to: 'shipped'},
-    { name:'complete', from: 'shipped', to: 'completed'},
-    { name:'cancel', from: ['init', 'pending'], to: 'canceled'},
-    { name:'refund', from: ['shipped', 'completed'], to: 'refunded'},
+    { name: 'accept', from: 'init', to: 'pending' },
+    { name: 'ship', from: 'pending', to: 'shipped' },
+    { name: 'complete', from: 'shipped', to: 'completed' },
+    { name: 'cancel', from: ['init', 'pending'], to: 'canceled' },
+    { name: 'refund', from: ['shipped', 'completed'], to: 'refunded' },
   ],
   methods: {
-
+    onEnterState({ from, to }) {
+      if (from === 'none') {
+        return;
+      }
+      this.history.push({ state: to, createdAt: new Date() });
+    },
   },
-})
+});
