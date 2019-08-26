@@ -12,6 +12,7 @@
     "hexlet-immutable-fs-trees": "^0.3.1",
     "hexlet-pairs": "^1.0.8",
     "hexlet-pairs-data": "^1.0.8",
+    "javascript-state-machine": "^3.1.0",
     "lodash": "^4.17.15"
   },
   "scripts": {
