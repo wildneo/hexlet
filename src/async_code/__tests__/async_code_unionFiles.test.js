@@ -16,19 +16,19 @@ beforeAll(() => {
   fs.writeFileSync(filepath2, 'data2');
 });
 
-test('unionFiles 1', (done) => {
-  unionFiles('/undefined', filepath2, output, (err) => {
-    expect(err).not.toBeNull();
-    done();
-  });
-});
+// test('unionFiles 1', (done) => {
+//   unionFiles('/undefined', filepath2, output, (err) => {
+//     expect(err).not.toBeNull();
+//     done();
+//   });
+// });
 
-test('unionFiles 2', (done) => {
-  unionFiles(filepath1, '/undefined', output, (err) => {
-    expect(err).not.toBeNull();
-    done();
-  });
-});
+// test('unionFiles 2', (done) => {
+//   unionFiles(filepath1, '/undefined', output, (err) => {
+//     expect(err).not.toBeNull();
+//     done();
+//   });
+// });
 
 test('unionFiles 3', (done) => {
   unionFiles(filepath1, filepath2, '/a/b/c/', (err) => {

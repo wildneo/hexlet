@@ -1,6 +1,6 @@
-import State from './State';
+import State from './state_State';
 // eslint-disable-next-line import/no-cycle
-import ClockState from './ClockState';
+import ClockState from './state_ClockState';
 
 export default class BellState extends State {
   constructor(clock) {

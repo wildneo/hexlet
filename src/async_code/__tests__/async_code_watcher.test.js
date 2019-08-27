@@ -9,13 +9,13 @@ beforeAll(() => {
   fs.writeFileSync(filepath, '');
 });
 
-test('watch', (done) => {
-  const id = watch('/undefined', 4, (err) => {
-    clearInterval(id);
-    expect(err).not.toBeNull();
-    done();
-  });
-});
+// test('watch', (done) => {
+//   const id = watch('/undefined', 4, (err) => {
+//     clearInterval(id);
+//     expect(err).not.toBeNull();
+//     done();
+//   });
+// });
 
 test('watch 2', (done) => {
   const id = watch(filepath, 500, (err) => {

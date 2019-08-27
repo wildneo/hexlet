@@ -1,4 +1,4 @@
-import ClockState from './ClockState';
+import ClockState from './state_ClockState';
 
 export default class AlarmClock {
   constructor() {

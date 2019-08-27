@@ -1,4 +1,4 @@
-import AlarmClock from '../AlarmClock';
+import AlarmClock from '../state_AlarmClock';
 
 describe('AlarmClock', () => {
   it('should have default values', () => {
