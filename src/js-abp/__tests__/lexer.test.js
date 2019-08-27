@@ -1,4 +1,4 @@
-import lexer from '../js-abp_lexer';
+import lexer from '../lexer';
 
 test('solution 1', () => {
   const data = [
