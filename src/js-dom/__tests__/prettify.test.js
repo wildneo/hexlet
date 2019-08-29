@@ -1,7 +1,7 @@
 import prettify from '../prettify';
 
 test('prettify 1', () => {
-  const expected = '<p>Text</p><div></div>';
+  const expected = '<p>Text</p>';
   document.documentElement.innerHTML = expected;
   prettify(document);
   expect(document.body.innerHTML).toEqual(expected);
