@@ -12,7 +12,7 @@ import { sumBy } from 'lodash';
 //     .then(sumOfFiles);
 // };
 
-export const getDirectorySize = dirPath => fs.readdir(dirPath)
+const getDirectorySize = dirPath => fs.readdir(dirPath)
   .then(names => names.map(name => fs.stat(path.join(dirPath, name))))
   .then(promises => Promise.all(promises))
   .then(stats => stats.filter(stat => stat.isFile()))
