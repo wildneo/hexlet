@@ -2,17 +2,26 @@ import { watch } from 'melanke-watchjs';
 
 export default () => {
   const state = {
-    activeTabHash: '#list-home',
+    menu: {
+      activeTab: 'list-home-list',
+      previousTab: null,
+      activeTabContent: 'list-home',
+      previousTabContent: null,
+    },
   };
-  watch(state, 'activeTabHash', () => {
-    const tabs = document.querySelector('#list-tab').children;
-    const content = document.querySelector('#nav-tabContent').children;
-    [...tabs, ...content].map(tab => tab.classList.remove('active', 'show'));
-    document.querySelector(state.activeTabHash).classList.add('active', 'show');
-    document.querySelector(`${state.activeTabHash}-list`).classList.add('active');
+
+  watch(state, 'menu', () => {
+    document.getElementById(state.menu.previousTab).classList.remove('active');
+    document.getElementById(state.menu.previousTabContent).classList.remove('active', 'show');
+    document.getElementById(state.menu.activeTab).classList.add('active');
+    document.getElementById(state.menu.activeTabContent).classList.add('active', 'show');
   });
-  const listTab = document.querySelector('#list-tab');
-  listTab.addEventListener('click', ({ target }) => {
-    state.activeTabHash = target.hash;
-  });
+
+  document.querySelector('#list-tab')
+    .addEventListener('click', ({ target }) => {
+      state.menu.previousTab = state.menu.activeTab;
+      state.menu.previousTabContent = state.menu.activeTabContent;
+      state.menu.activeTab = target.id;
+      state.menu.activeTabContent = target.hash.slice(1);
+    });
 };
